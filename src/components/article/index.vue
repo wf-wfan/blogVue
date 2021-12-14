@@ -82,15 +82,11 @@ export default {
        this.$axios.post('/article/getArticleList', this.query, (response) => {
                 if (response.status >= 200 && response.status < 300) {
                     if (response.data.success) {
-                      debugger
-                       console.log("sssss")
-                       console.log(response.data.list);
                        this.listLoading = false
                        this.list = response.data.list
                       
                     } else {
                         this.list = list
-                         console.log("sssss")
                     }
                 } else {
                    this.$message({ message: '查询失败', duration: 3000 })

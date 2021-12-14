@@ -372,7 +372,7 @@ const Typeit = (emId) => {
             prevChar：前一个字符。
             speech：所有的speech。
          ***/
-  var world = 'Aimee'
+  var world = 'World'
 
   theater.describe('Luke', 0.9, emId)
   // conosle.log()

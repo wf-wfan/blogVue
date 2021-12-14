@@ -178,7 +178,7 @@ export default {
   background-position: center 50%;
   background-repeat: no-repeat;
   margin-bottom: 90px;
-  background-image: url('./../../assets/img/headbg05.jpg');
+  background-image: url('./../../assets/img/6346109a1102.jpg');
 }
 
 .h-information {

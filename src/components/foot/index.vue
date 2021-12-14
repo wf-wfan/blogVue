@@ -96,7 +96,7 @@ export default {
   width: 100%;
   bottom: -74px;
   pointer-events: none;
-  background: url('./../../assets/img/footer01.png') no-repeat 50%;
+  // background: url('./../../assets/img/footer01.png') no-repeat 50%;
 }
 
 .footBack p {

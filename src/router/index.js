@@ -15,6 +15,7 @@ let savedPosition = false
 export default new Router({
   mode: 'hash',
   scrollBehavior: (to, from) => {
+    debugger
     // console.log('to, from, savedPosition', to, from, savedPosition)
     if (savedPosition) {
       return {

@@ -5,11 +5,11 @@
         <img src="@/assets/img/headtou02.jpg"
              alt="">
         <h1>
-          <span>女王</span>Aimee
+          <span>博客</span>
         </h1>
       </div>
       <div class="r1-body">
-        <p>你能抓到我么？</p>
+        <p>联系方式</p>
         <div class="catch-me">
           <div class="">
             <el-tooltip class="item"
@@ -68,7 +68,7 @@
     <section :class="fixDo?'rs2 fixed':'rs2'"
              @click="lovemeFun">
       <p>
-        Do you like me?
+        Do you like my blog
       </p>
       <div class="">
         <i :class="loveme?'heart active':'heart'" />
@@ -158,73 +158,73 @@ export default {
   methods: {
     ...mapActions('common', ['goDetail']),
     async getTopComment() {
-      // const res = await commentAPI.getTopComment()
-      // if (res.code === 0) {
-      //   const { browseList, commentList, loveCount } = res.data
-      //   this.artCommentList = commentList
-      //   this.browseList = browseList
-      //   this.likeNum = loveCount
-      // }
+      const res = await commentAPI.getTopComment()
+      if (res.code === 0) {
+        const { browseList, commentList, loveCount } = res.data
+        this.artCommentList = commentList
+        this.browseList = browseList
+        this.likeNum = loveCount
+      }
     },
     init() {
-      // const clientHeight = document.documentElement.clientHeight
-      // let topHieght = 0
-      // if (clientHeight < 900) {
-      //   topHieght = 1000 - clientHeight
-      // } else {
-      //   topHieght = 100
-      // }
-      // this.top = '-950px'
-      // window.addEventListener('scroll', () => {
-      //   var t = document.documentElement.scrollTop || document.body.scrollTop
-      //   // console.log(t);
-      //   if (!this.going) {
-      //     if (t > 600) {
-      //       this.gotoTop = true
-      //       this.top = -topHieght + 'px'
-      //     } else {
-      //       this.gotoTop = false
-      //       this.top = '-950px'
-      //     }
-      //   }
-      //   if (t > 1200) {
-      //     this.fixDo = true
-      //   } else {
-      //     this.fixDo = false
-      //   }
-      // })
+      const clientHeight = document.documentElement.clientHeight
+      let topHieght = 0
+      if (clientHeight < 900) {
+        topHieght = 1000 - clientHeight
+      } else {
+        topHieght = 100
+      }
+      this.top = '-950px'
+      window.addEventListener('scroll', () => {
+        var t = document.documentElement.scrollTop || document.body.scrollTop
+        // console.log(t);
+        if (!this.going) {
+          if (t > 600) {
+            this.gotoTop = true
+            this.top = -topHieght + 'px'
+          } else {
+            this.gotoTop = false
+            this.top = '-950px'
+          }
+        }
+        if (t > 1200) {
+          this.fixDo = true
+        } else {
+          this.fixDo = false
+        }
+      })
     },
     async lovemeFun() {
-      // if (!this.loveme) {
-      //   const res = await loveAPI.add()
-      //   if (res.data.status === 1) {
-      //     this.likeNum += 1
-      //     this.loveme = true
-      //     const timer = setTimeout(() => {
-      //       this.loveme = false
-      //       clearTimeout(timer)
-      //     }, 3000)
-      //   } else if (res.data.status === -1) {
-      //     this.$message({ message: '已点赞过哦', duration: 3000 })
-      //   }
-      // }
+      if (!this.loveme) {
+        const res = await loveAPI.add()
+        if (res.data.status === 1) {
+          this.likeNum += 1
+          this.loveme = true
+          const timer = setTimeout(() => {
+            this.loveme = false
+            clearTimeout(timer)
+          }, 3000)
+        } else if (res.data.status === -1) {
+          this.$message({ message: '已点赞过哦', duration: 3000 })
+        }
+      }
     },
     toTopfun() {
-      // this.gotoTop = false
-      // this.going = true
-      // var timer = setInterval(() => {
-      //   // 获取滚动条距离顶部高度
-      //   var osTop = document.documentElement.scrollTop || document.body.scrollTop
-      //   var ispeed = Math.floor(-osTop / 7)
-      //   document.documentElement.scrollTop = document.body.scrollTop = osTop + ispeed
-      //   // 到达顶部，清除定时器
-      //   if (osTop === 0) {
-      //     this.going = false
-      //     this.top = '-950px'
-      //     clearInterval(timer)
-      //     timer = null
-      //   }
-      // }, 30)
+      this.gotoTop = false
+      this.going = true
+      var timer = setInterval(() => {
+        // 获取滚动条距离顶部高度
+        var osTop = document.documentElement.scrollTop || document.body.scrollTop
+        var ispeed = Math.floor(-osTop / 7)
+        document.documentElement.scrollTop = document.body.scrollTop = osTop + ispeed
+        // 到达顶部，清除定时器
+        if (osTop === 0) {
+          this.going = false
+          this.top = '-950px'
+          clearInterval(timer)
+          timer = null
+        }
+      }, 30)
     },
     goOther(path) {
       this.$router.push('/' + path)
