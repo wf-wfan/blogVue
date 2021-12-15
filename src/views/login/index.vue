@@ -233,7 +233,7 @@ export default {
                             this.param.vcode = false;
                             this.$message.error('登录失败');
                         }
-                    });
+                    }); 
       // if (!that.emailErr && !that.passwordErr) {
         // UserLogin(that.email, that.password, function (msg) {
         //   // console.log(msg);

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
 
-<div v-if="$route.meta.keepAlive">
+<div v-if="$route.meta.keepAlive"> 
    <Head />
     <div class="container">
       <el-row :gutter="30">

@@ -126,7 +126,7 @@ export default {
       // this.totalPage = pagination.totalPage
       // this.current = pagination.currentPage
       // this.listLoading = false
-    },
+    },  
 
     goDetail(arid) {
       this.$store.commit("commonUsed/SET_ID", arid);
