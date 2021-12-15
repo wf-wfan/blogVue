@@ -1,14 +1,14 @@
 <!-- 文章列表 -->
 <template>
-  <el-row v-loading="listLoading"
-          class="sharelistBox">
-    <el-col v-for="(item,index) in list"
-            :key="'article'+index"
-            :span="24"
-            class="s-item tcommonBox">
+  <el-row v-loading="listLoading" class="sharelistBox">
+    <el-col
+      v-for="(item, index) in list"
+      :key="'article' + index"
+      :span="24"
+      class="s-item tcommonBox"
+    >
       <articleHead :item="item" />
-      <div class="article-content-list"
-           @click="goDetail(item.id)">
+      <div class="article-content-list" @click="goDetail(item.id)">
         <Content :content="item.content" />
         <!-- <div class="article-description" >
           {{ item.description }}
@@ -25,75 +25,88 @@
           阅读全文
           <i class="el-icon-d-arrow-right" />
         </a> -->
-        <AButton icon="el-icon-d-arrow-right"
-                 @click="goDetail(item.id)">阅读全文</AButton>
+        <AButton icon="el-icon-d-arrow-right" @click="goDetail(item.id)"
+          >阅读全文</AButton
+        >
       </div>
     </el-col>
-    <el-col v-if="!listLoading"
-            class="tcommonBox">
-      <el-pagination class="pagination-list"
+    <el-col v-if="!listLoading" class="tcommonBox">
+      <!-- <el-pagination class="pagination-list"
                      background
                      :page-size="pageSize"
                      :current-page.sync="current"
                      layout="prev, pager, next"
                      :total="total"
-                     @current-change="handleCurrentChange" />
-    </el-col>
+                     @current-change="handleCurrentChange" /> -->
 
+      <el-pagination
+        class="pagination-list"
+        background
+        layout="total, prev, pager, next"
+        :current-page="query.pageIndex"
+        :page-size="query.pageSize"
+        :total="pageTotal"
+        @current-change="handleCurrentChange"
+      ></el-pagination>
+    </el-col>
   </el-row>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import articleHead from '@/components/articleHead'
-import Content from '@/components/content'
-import AButton from '@/components/abutton'
+import { mapActions, mapGetters, mapMutations } from "vuex";
+import articleHead from "@/components/articleHead";
+import Content from "@/components/content";
+import AButton from "@/components/abutton";
 
 export default {
-  name: 'Article',
-  components: { // 定义组件
+  name: "Article",
+  components: {
+    // 定义组件
     articleHead,
     Content,
-    AButton
+    AButton,
   },
-  props: ['type'],
-  data() { // 选项 / 数据
+  computed: {},
+  props: ["type"],
+  data() {
+    // 选项 / 数据
     return {
-      keywords: '',
+      query: {
+        pageIndex: 1,
+        pageSize: 10,
+      },
+      keywords: "",
       hasMore: true,
       list: [],
       pageSize: 10,
       current: 1,
-      total: 0,
-      totalPage: 0,
-      listLoading: true
-    }
+      pageTotal: 0,
+      listLoading: true,
+    };
   },
-  watch: {
-  },
-   created() { // 生命周期函数
+  watch: {},
+  created() {
+    // 生命周期函数
     this.getAList();
   },
 
-  methods: { // 事件处理器
-    ...mapActions('common', ['goDetail']),
-     getAList() {
-      debugger
-       this.$axios.post('/article/getArticleList', this.query, (response) => {
-                if (response.status >= 200 && response.status < 300) {
-                    if (response.data.success) {
-                       this.listLoading = false
-                       this.list = response.data.list
-                      
-                    } else {
-                        this.list = list
-                    }
-                } else {
-                   this.$message({ message: '查询失败', duration: 3000 })
-                }
-            });
-
-
+  methods: {
+    getAList() {
+      debugger;
+      this.$axios.post("/article/getArticleList", this.query, (response) => {
+        if (response.status >= 200 && response.status < 300) {
+          if (response.data.success) {
+            this.listLoading = false;
+            this.list = response.data.list;
+             this.pageTotal = response.data.totalSize;
+          } else {
+             this.list = response.data.list;
+              this.pageTotal = response.data.totalSize;
+          }
+        } else {
+          this.$message({ message: "查询失败", duration: 3000 });
+        }
+      });
 
       // const options = {
       //   keywords: this.keywords,
@@ -115,12 +128,17 @@ export default {
       // this.listLoading = false
     },
 
-    handleCurrentChange(val) {
-      this.current = val
-      this.getAList()
+    goDetail(arid) {
+      this.$store.commit("commonUsed/SET_ID", arid);
+      this.$router.push("/detail");
     },
-  }
-}
+    handleCurrentChange(val) {
+       this.$set(this.query, 'pageIndex', val);
+
+      this.getAList();
+    },
+  },
+};
 </script>
 
 <style>

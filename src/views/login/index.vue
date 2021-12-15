@@ -167,23 +167,24 @@ export default {
     }
   },
   created() { // 生命周期函数
-    // that.routeChange();
+     this.routeChange();
   },
   methods: { // 事件处理器
     routeChange: function () {
+      debugger
       var that = this
-      that.login = that.$route.query.login == undefined ? 1 : parseInt(that.$route.query.login)// 获取传参的login
-      that.urlstate = that.$route.query.urlstate == undefined ? 0 : that.$route.query.urlstate// 获取传参的usrlstate状态码
+      this.login = that.$route.query.login == undefined ? 1 : parseInt(that.$route.query.login)// 获取传参的login
+      this.urlstate = that.$route.query.urlstate == undefined ? 0 : that.$route.query.urlstate// 获取传参的usrlstate状态码
       // console.log(that.login,that.urlstate);
       if (that.urlstate == 0) {
-        that.err2005 = false
-        that.step = 1
+        this.err2005 = false
+        this.step = 1
       } else if (that.urlstate == 'urlInvalid') {
-        that.err2005 = true
-        that.step = 2
+        this.err2005 = true
+        this.step = 2
       } else if (that.urlstate == 'urlErr') {
-        that.err2005 = true
-        that.step = 1
+        this.err2005 = true
+        this.step = 1
       }
     },
     loginEnterFun: function (e) {
@@ -207,7 +208,33 @@ export default {
       } else {
         that.passwordErr = true
       }
-      if (!that.emailErr && !that.passwordErr) {
+      var params ={
+        username: that.email,
+         password: that.password,
+      }
+         this.$axios.post('/user/login', params, (response) => {
+                        if (response.status >= 200 && response.status < 300) {
+                            if (response.data.success) {
+                               localStorage.setItem('userInfo', JSON.stringify(response.data.t));
+                               localStorage.setItem('accessToken', response.data.token);
+
+                                if (localStorage.getItem('logUrl')) {
+                                  that.$router.push({ path: localStorage.getItem('logUrl') });
+                                } else {
+                                  that.$router.push({ path: '/' });
+                                }
+
+                            } else {
+
+                                that.loginErr = true;
+                                that.loginTitle = '登录失败';
+                            }
+                        } else {
+                            this.param.vcode = false;
+                            this.$message.error('登录失败');
+                        }
+                    });
+      // if (!that.emailErr && !that.passwordErr) {
         // UserLogin(that.email, that.password, function (msg) {
         //   // console.log(msg);
         //   if (msg.code == 1010) {//登录成功
@@ -234,7 +261,8 @@ export default {
         //     that.loginTitle = '登录失败';
         //   }
         // })
-      }
+
+      // }
     },
     registerEnterFun: function (e) {
       var keyCode = window.event ? e.keyCode : e.which

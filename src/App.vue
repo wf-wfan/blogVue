@@ -1,7 +1,8 @@
 <template>
   <div id="app">
 
-    <Head />
+<div v-if="$route.meta.keepAlive">
+   <Head />
     <div class="container">
       <el-row :gutter="30">
         <el-col :sm="24"
@@ -19,6 +20,11 @@
     <canvas id="evanyou"
             ref="evanyou"
             class="evanyou" />
+  
+</div>
+<div v-else>
+     <router-view />
+  </div>
   </div>
 </template>
 

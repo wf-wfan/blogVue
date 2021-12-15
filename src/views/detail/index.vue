@@ -47,9 +47,8 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState,mapGetters } from 'vuex'
 
-import articleAPI from '@/api/article'
 import collectAPI from '@/api/collect'
 import likeAPI from '@/api/like'
 import { initDate } from '@/utils'
@@ -82,17 +81,19 @@ export default {
   computed: {
     ...mapState('user', [
       'haslogin'
-    ])
+    ]),
+    
   },
   watch: {
-    // 如果路由有变化，会再次执行该方法
-    '$route': 'routeChange'
   },
-  async created() { // 生命周期函数
-    await this.routeChange()
+   created() { // 生命周期函数
+     this.routeChange()
   },
   methods: { // 事件处理器
     ...mapActions('user', ['login']),
+     ...mapGetters([
+       'arid'
+    ]),
     showInitDate: initDate,
     async likecollectHandle(islike) { // 用户点击喜欢0,用户点击收藏1
       if (this.haslogin) { // 判断是否登录
@@ -126,7 +127,7 @@ export default {
             message: tip,
             type: 'success'
           })
-          await this.getInfo(this.id)
+           this.getInfo(this.id)
         }
       } else { // 未登录 前去登录。
         this.$confirm('登录后即可点赞和收藏，是否前往登录页面?', '提示', {
@@ -142,26 +143,43 @@ export default {
         })
       }
     },
-    async getInfo(id) {
-      const res = await articleAPI.getInfo({ id })
+     getInfo(id) {
+       var params = {
+         arid :id
+       }
+       this.$axios.get('/article/getArticleById', params, (response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    if (response.data.success) {
+                       this.detailObj = cloneDeep(response.data.t)
+                       this.content = this.detailObj.content;
+                    } else {
+                        this.$message({ message: '查询失败', duration: 3000 })
+                    }
+                } else {
+                   this.$message({ message: '查询失败', duration: 3000 })
+                }
+            });
+
+
+      // const res = await articleAPI.getInfo({ id })
       // console.log('articleAPI.info---res', res)
 
-      this.detailObj = cloneDeep(res.data)
-      this.content = this.detailObj.content
-      if (this.haslogin) {
-        const likeRes = await likeAPI.getInfo({ id })
-        const collectRes = await collectAPI.getInfo({ id })
-        if (likeRes.code === 0 && likeRes.data._id) {
-          this.likeArt = true
-        }
-        if (collectRes.code === 0 && collectRes.data._id) {
-          this.collectArt = true
-        }
-      }
+      // this.detailObj = cloneDeep(res.data)
+      // this.content = this.detailObj.content
+      // if (this.haslogin) {
+      //   // const likeRes = await likeAPI.getInfo({ id })
+      //   // const collectRes = await collectAPI.getInfo({ id })
+      //   if (likeRes.code === 0 && likeRes.data._id) {
+      //     this.likeArt = true
+      //   }
+      //   if (collectRes.code === 0 && collectRes.data._id) {
+      //     this.collectArt = true
+      //   }
+      // }
     },
-    async routeChange() {
-      this.id = this.$route.params.id
-      await this.getInfo(this.id)
+     routeChange() {
+      this.id  = this.$store.getters.arid;
+      this.getInfo(this.id);
     }
   }
 

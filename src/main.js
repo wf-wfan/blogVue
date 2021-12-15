@@ -9,6 +9,9 @@ import HeadImg from '@/plugins/HeadImg'
 import '@/utils/permission'
 import '@/assets/css/sigmar.css'
 
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+Vue.use(mavonEditor)
 
 import Api from './utils/request.js';
 Vue.prototype.$axios = Api;

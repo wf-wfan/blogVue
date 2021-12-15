@@ -8,6 +8,8 @@ const getters = {
   role: state => state.user.role,
   userInfo: state => state.userInfo,
   status: state => state.user.status,
-  activeCateList: state => state.common.activeCateList
+  activeCateList: state => state.common.activeCateList,
+  arid :state => state.commonUsed.arid,
+
 }
 export default getters

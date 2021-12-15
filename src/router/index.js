@@ -10,12 +10,17 @@ import Router from 'vue-router'
 // import likeCollect from '@/views/likeCollect'
 // import message from '@/views/message'
 
+const originalPush = Router.prototype.push
+Router.prototype.push = function push (location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
+
 Vue.use(Router)
 let savedPosition = false
 export default new Router({
   mode: 'hash',
   scrollBehavior: (to, from) => {
-    debugger
     // console.log('to, from, savedPosition', to, from, savedPosition)
     if (savedPosition) {
       return {
@@ -34,15 +39,26 @@ export default new Router({
       name: 'Home',
       component: () => import('@/views/home/index'),
       meta: {
-        title: '首页'
+        title: '首页',
+        keepAlive: true
       }
     },
     {
-      path: '/detail/:id',
+      path: '/detail',
       name: 'Detail',
       component: () => import('@/views/detail/index'),
       meta: {
-        title: '详情页'
+        title: '详情页',
+        keepAlive: true
+      }
+    },
+    {
+      path: '/articleAdd',
+      name: 'ArticleAdd',
+      component: () => import('@/views/articleAdd/index'),
+      meta: {
+        title: '添加文章',
+        keepAlive: false
       }
     },
 
@@ -51,7 +67,8 @@ export default new Router({
       name: 'Archive',
       component: () => import('@/views/archive/index'),
       meta: {
-        title: '归档'
+        title: '归档',
+        keepAlive: true
       }
     },
     {
@@ -59,7 +76,8 @@ export default new Router({
       name: 'Friendslink',
       component: () => import('@/views/friendslink/index'),
       meta: {
-        title: '友链'
+        title: '友链',
+        keepAlive: true
       }
     },
     {
@@ -67,7 +85,8 @@ export default new Router({
       name: 'Reward',
       component: () => import('@/views/reward/index'),
       meta: {
-        title: '赞赏'
+        title: '赞赏',
+        keepAlive: true
       }
     },
     {
@@ -75,7 +94,8 @@ export default new Router({
       name: 'Message',
       component: () => import('@/views/message/index'),
       meta: {
-        title: '留言板'
+        title: '留言板',
+        keepAlive: true
       }
     },
     {
@@ -83,7 +103,8 @@ export default new Router({
       name: 'Aboutme',
       component: () => import('@/views/aboutme/index'),
       meta: {
-        title: '关于'
+        title: '关于',
+        keepAlive: true
       }
     },
     {
@@ -91,7 +112,8 @@ export default new Router({
       name: 'User',
       component: () => import('@/views/user/index'),
       meta: {
-        title: '个人中心'
+        title: '个人中心',
+        keepAlive: true
       }
     },
     {
@@ -99,7 +121,17 @@ export default new Router({
       name: 'LikeCollect',
       component: () => import('@/views/likeCollect/index'),
       meta: {
-        title: '喜欢/收藏'
+        title: '喜欢/收藏',
+        keepAlive: true
+      }
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: () => import('@/views/login/index'),
+      meta: {
+        title: '登录',
+        keepAlive: false
       }
     },
     {

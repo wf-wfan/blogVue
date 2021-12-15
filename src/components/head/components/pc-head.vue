@@ -10,6 +10,7 @@
       <el-menu-item index="/">
         <i class="fa fa-wa fa-home" /> 首页
       </el-menu-item>
+       <el-menu-item  ><a href="javascript:void(0);" @click="article(1)">文章&nbsp;</a></el-menu-item>
       <el-submenu index=""
                   :popper-append-to-body="false">
         <template slot="title">
@@ -39,6 +40,7 @@
       </el-menu-item>
       <div class="pcsearchbox">
         <i class="el-icon-search pcsearchicon" />
+          <!-- <el-button>sss</el-button> -->
         <div class="pcsearchinput"
              :class="searchkey?'hasSearched':''">
           <el-input v-model="searchkey"
@@ -50,16 +52,18 @@
                @click="searchEnterFun" />
           </el-input>
         </div>
+        
       </div>
+      
       <div class="userInfo">
         <div v-show="!haslogin"
              class="nologin">
-          <el-tooltip effect="dark"
+          <!-- <el-tooltip effect="dark"
                       content="跳往github授权登录"
-                      placement="left-end">
+                      placement="left-end"> -->
             <a href="javascript:void(0);"
-               @click="logoinFun(1)">登录</a>
-          </el-tooltip>
+               @click="logoinFun(0)">登录</a>
+          <!-- </el-tooltip> -->
 
         </div>
         <div v-show="haslogin"
@@ -100,11 +104,22 @@ export default {
   methods: {
     searchEnterFun() { this.$emit('searchEnterFun') },
     searchChangeFun(value) { this.$emit('searchChangeFun', value) },
-    logoinFun() { this.$emit('logoinFun') },
+    // logoinFun() { this.$emit('logoinFun') },
     userlogout() { this.$emit('userlogout') },
     goHandle(value) {
       this.$emit('goHandle', value)
-    }
+    },
+    article(){
+        this.$router.replace('/articleAdd')
+    },
+    	logoinFun: function(msg) { //用户登录和注册跳转
+			// console.log(msg);
+			localStorage.setItem('logUrl', this.$route.fullPath);
+			// console.log(666,this.$router.currentRoute.fullPath);
+			if (msg == 0) {
+         this.$router.replace('/login?login=1')
+      }
+		},
   }
 }
 </script>

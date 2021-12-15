@@ -80,7 +80,7 @@
     <section />
     <section class="rs3">
       <h2 class="ui label">
-        这些人都排着队来跟我说话
+        这些人都排着队来跟我说话  最近添加的博客
       </h2>
       <ul class="rs3-textwidget">
         <li v-for="(item,index) in artCommentList"
@@ -101,7 +101,7 @@
     </section>
     <section class="rs4">
       <h2 class="ui label">
-        大家都排队来看这些
+        大家都排队来看这些  点赞或评论最多的 前10条
       </h2>
       <ul>
         <li v-for="(item,index) in browseList"
