@@ -92,7 +92,6 @@ export default {
 
   methods: {
     getAList() {
-      debugger;
       this.$axios.post("/article/getArticleList", this.query, (response) => {
         if (response.status >= 200 && response.status < 300) {
           if (response.data.success) {

@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="donate">
+    <!-- <div class="donate">
       <div class="donate-word">
         <span @click="pdonate=!pdonate">赞赏</span>
       </div>
@@ -41,8 +41,8 @@
           </div>
         </el-col>
       </el-row>
-    </div>
-    <Message :id="id" />
+    </div> -->
+     <Message :id="id" /> 
   </div>
 </template>
 
@@ -127,7 +127,7 @@ export default {
             message: tip,
             type: 'success'
           })
-           this.getInfo(this.id)
+          //  this.getInfo(this.id)
         }
       } else { // 未登录 前去登录。
         this.$confirm('登录后即可点赞和收藏，是否前往登录页面?', '提示', {

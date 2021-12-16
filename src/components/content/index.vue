@@ -37,7 +37,6 @@ export default {
   },
   computed: {
     contentInner() {
-      debugger
       return Marked(this.content)
     }
   },

@@ -6,127 +6,137 @@
         <a href="/">Aimee 的博客</a>
       </h1>
       <!-- 登录注册 -->
-      <div v-show="!err2005"
-           class="">
-        <div v-if="login==1"
-             class="loginBox">
+      <div v-show="!err2005" class="">
+        <div v-if="login == 1" class="loginBox">
           <div class="lr-title">
             <h1>登录</h1>
-            <p>
-              新用户<a href="#/Login?login=0"
-                 class="tcolors">注册</a>
-            </p>
+            <p>新用户<a href="#/Login?login=0" class="tcolors">注册</a></p>
           </div>
-          <el-alert v-show="loginErr"
-                    :title="loginTitle"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <el-input v-model="email"
-                    type="email"
-                    placeholder="邮箱" />
-          <el-alert v-show="emailErr"
-                    title="请输入邮箱"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <el-input v-model="password"
-                    type="password"
-                    placeholder="密码"
-                    @keyup.enter.native="loginEnterFun" />
-          <el-alert v-show="passwordErr"
-                    title="请输入密码"
-                    type="error"
-                    show-icon
-                    :closable="false" />
+          <el-alert
+            v-show="loginErr"
+            :title="loginTitle"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <el-input v-model="email" type="email" placeholder="邮箱" />
+          <el-alert
+            v-show="emailErr"
+            title="请输入邮箱"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <el-input
+            v-model="password"
+            type="password"
+            placeholder="密码"
+            @keyup.enter.native="loginEnterFun"
+          />
+          <el-alert
+            v-show="passwordErr"
+            title="请输入密码"
+            type="error"
+            show-icon
+            :closable="false"
+          />
           <h3><a href="">忘记密码？</a></h3>
-          <div class="lr-btn tcolors-bg"
-               @click="gotoHome">登录</div>
+          <div class="lr-btn tcolors-bg" @click="gotoHome">登录</div>
           <div class="otherLogin">
             <a href="javascript:void(0)"><i class="fa fa-fw fa-wechat" /></a>
             <a href="javascript:void(0)"><i class="fa fa-fw fa-qq" /></a>
             <a href="javascript:void(0)"><i class="fa fa-fw fa-weibo" /></a>
           </div>
         </div>
-        <div v-else
-             class="registerBox">
+        <div v-else class="registerBox">
           <div class="lr-title">
             <h1>注册</h1>
-            <p>
-              已有账号<a href="#/Login?login=1"
-                 class="tcolors">登录</a>
-            </p>
+            <p>已有账号<a href="#/Login?login=1" class="tcolors">登录</a></p>
           </div>
-          <el-alert v-show="registerErr"
-                    :title="registerTitle"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <el-input v-model="nusername"
-                    type="text"
-                    placeholder="用户名" />
-          <el-alert v-show="nusernameErr"
-                    title="用户名错误"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <el-input v-model="nemail"
-                    type="email"
-                    placeholder="邮箱" />
-          <el-alert v-show="nemailErr"
-                    title="邮箱错误"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <el-input v-model="npassword"
-                    type="password"
-                    placeholder="密码:6-12位英文、数字、下划线" />
-          <el-alert v-show="npasswordErr"
-                    title="密码错误"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <el-input v-model="npassword2"
-                    type="password"
-                    placeholder="确认密码"
-                    @keyup.enter.native="registerEnterFun" />
-          <el-alert v-show="npassword2Err"
-                    title="重复密码有误"
-                    type="error"
-                    show-icon
-                    :closable="false" />
-          <div v-loading.fullscreen.lock="fullscreenLoading"
-               class="lr-btn tcolors-bg"
-               element-loading-text="提交中"
-               @click="newRegister">注册</div>
+          <el-alert
+            v-show="registerErr"
+            :title="registerTitle"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <el-input v-model="nusername" type="text" placeholder="用户名" />
+          <el-alert
+            v-show="nusernameErr"
+            title="用户名错误"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <el-input v-model="nemail" type="email" placeholder="邮箱" />
+          <el-alert
+            v-show="nemailErr"
+            title="邮箱错误"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <el-input
+            v-model="npassword"
+            type="password"
+            placeholder="密码:6-12位英文、数字、下划线"
+          />
+          <el-alert
+            v-show="npasswordErr"
+            title="密码错误"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <el-input
+            v-model="npassword2"
+            type="password"
+            placeholder="确认密码"
+            @keyup.enter.native="registerEnterFun"
+          />
+          <el-alert
+            v-show="npassword2Err"
+            title="重复密码有误"
+            type="error"
+            show-icon
+            :closable="false"
+          />
+          <div
+            v-loading.fullscreen.lock="fullscreenLoading"
+            class="lr-btn tcolors-bg"
+            element-loading-text="提交中"
+            @click="newRegister"
+          >
+            注册
+          </div>
         </div>
       </div>
       <!-- 注册进度状态 -->
-      <div v-show="err2005"
-           class="registerSuc">
+      <div v-show="err2005" class="registerSuc">
         <div class="sucIcon">
-          <el-steps :space="100"
-                    :active="step"
-                    finish-status="success">
+          <el-steps :space="100" :active="step" finish-status="success">
             <el-step title="注册" />
             <el-step title="验证" />
             <el-step title="登录" />
           </el-steps>
         </div>
-        <div v-show="urlstate==0"
-             class="sucContent">
+        <div v-show="urlstate == 0" class="sucContent">
           账号激活链接已发送至您的邮箱：{{ nemail }}
           <p>请您在24小时内登录邮箱，按邮件中的提示完成账号激活操作</p>
         </div>
-        <div v-show="urlstate=='urlInvalid'"
-             class="sucContent">
-          账号已激活，现在去登录 &nbsp;&nbsp;<span class="tcolors-bg lastbtn"
-                @click="goLogin">登录</span>
+        <div v-show="urlstate == 'urlInvalid'" class="sucContent">
+          账号已激活，现在去登录 &nbsp;&nbsp;<span
+            class="tcolors-bg lastbtn"
+            @click="goLogin"
+            >登录</span
+          >
         </div>
-        <div v-show="urlstate=='urlErr'"
-             class="sucContent">
-          OwO邮箱激活地址已超时，验证失败，请重新注册 &nbsp;&nbsp;<span class="tcolors-bg lastbtn"
-                @click="goRegister">注册</span>
+        <div v-show="urlstate == 'urlErr'" class="sucContent">
+          OwO邮箱激活地址已超时，验证失败，请重新注册 &nbsp;&nbsp;<span
+            class="tcolors-bg lastbtn"
+            @click="goRegister"
+            >注册</span
+          >
         </div>
       </div>
     </div>
@@ -135,168 +145,184 @@
 
 <script>
 // import {getRegister,UserLogin} from '../utils/server.js'
+import { mapActions, mapState, mapGetters } from "vuex";
 export default {
-  name: 'Login',
-  components: { // 定义组件
-
+  name: "Login",
+  components: {
+    // 定义组件
   },
-  data() { // 选项 / 数据
+  data() {
+    // 选项 / 数据
     return {
-      username: '', // 用户名
-      email: '', // 邮箱
-      password: '', // 密码
-      nusername: '', // 新用户注册名
-      nemail: '', // 新用户注册邮箱
-      npassword: '', // 新用户注册密码
-      npassword2: '', // 新用户注册重复密码
+      username: "", // 用户名
+      email: "", // 邮箱
+      password: "", // 密码
+      nusername: "", // 新用户注册名
+      nemail: "", // 新用户注册邮箱
+      npassword: "", // 新用户注册密码
+      npassword2: "", // 新用户注册重复密码
       login: 0, // 是否已经登录
       emailErr: false, // 登录邮箱错误
       passwordErr: false, // 的轮毂密码错误
       loginErr: false, // 登录错误
-      loginTitle: '用户名或密码错误',
+      loginTitle: "用户名或密码错误",
       nusernameErr: false, // 新用户注册用户名错误
       nemailErr: false, // 新用户注册邮箱错误
       npasswordErr: false, // 新用户注册密码错误
       npassword2Err: false, // 新用户注册重复密码错误
       registerErr: false, // 已注册错误
-      registerTitle: '该邮箱已注册',
+      registerTitle: "该邮箱已注册",
       err2005: false, // 是否展示注册进度条状态
       step: 1, // 注册进度
       fullscreenLoading: false, // 全屏loading
-      urlstate: 0// 重新注册
-    }
+      urlstate: 0, // 重新注册
+    };
   },
-  created() { // 生命周期函数
-     this.routeChange();
+  created() {
+    // 生命周期函数
+    this.routeChange();
   },
-  methods: { // 事件处理器
+  methods: {
+    ...mapActions("user", ["addUser"]),
+    // 事件处理器
     routeChange: function () {
-      debugger
-      var that = this
-      this.login = that.$route.query.login == undefined ? 1 : parseInt(that.$route.query.login)// 获取传参的login
-      this.urlstate = that.$route.query.urlstate == undefined ? 0 : that.$route.query.urlstate// 获取传参的usrlstate状态码
+      var that = this;
+      this.login =
+        that.$route.query.login == undefined
+          ? 1
+          : parseInt(that.$route.query.login); // 获取传参的login
+      this.urlstate =
+        that.$route.query.urlstate == undefined
+          ? 0
+          : that.$route.query.urlstate; // 获取传参的usrlstate状态码
       // console.log(that.login,that.urlstate);
       if (that.urlstate == 0) {
-        this.err2005 = false
-        this.step = 1
-      } else if (that.urlstate == 'urlInvalid') {
-        this.err2005 = true
-        this.step = 2
-      } else if (that.urlstate == 'urlErr') {
-        this.err2005 = true
-        this.step = 1
+        this.err2005 = false;
+        this.step = 1;
+      } else if (that.urlstate == "urlInvalid") {
+        this.err2005 = true;
+        this.step = 2;
+      } else if (that.urlstate == "urlErr") {
+        this.err2005 = true;
+        this.step = 1;
       }
     },
     loginEnterFun: function (e) {
-      var keyCode = window.event ? e.keyCode : e.which
+      var keyCode = window.event ? e.keyCode : e.which;
       // console.log('回车登录',keyCode,e);
       if (keyCode == 13) {
-        this.gotoHome()
+        this.gotoHome();
       }
     },
-    gotoHome: function () { // 用户登录
-      var that = this
-      var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
-      var preg = /^(\w){6,12}$/
-      if (reg.test(that.email)) {
-        that.emailErr = false
-      } else {
-        that.emailErr = true
-      }
-      if (that.password && preg.test(that.password)) {
-        that.passwordErr = false
-      } else {
-        that.passwordErr = true
-      }
-      var params ={
+    gotoHome: function () {
+      // 用户登录
+      var that = this;
+      // var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+      // var preg = /^(\w){6,12}$/;
+      // if (reg.test(that.email)) {
+      //   that.emailErr = false;
+      // } else {
+      //   that.emailErr = true;
+      // }
+      // if (that.password && preg.test(that.password)) {
+      //   that.passwordErr = false;
+      // } else {
+      //   that.passwordErr = true;
+      // }
+      var params = {
         username: that.email,
-         password: that.password,
-      }
-         this.$axios.post('/user/login', params, (response) => {
-                        if (response.status >= 200 && response.status < 300) {
-                            if (response.data.success) {
-                               localStorage.setItem('userInfo', JSON.stringify(response.data.t));
-                               localStorage.setItem('accessToken', response.data.token);
+        password: that.password,
+      };
+      this.$axios.post("/user/login", params, (response) => {
+        if (response.status >= 200 && response.status < 300) {
+          if (response.data.success) {
+            debugger;
 
-                                if (localStorage.getItem('logUrl')) {
-                                  that.$router.push({ path: localStorage.getItem('logUrl') });
-                                } else {
-                                  that.$router.push({ path: '/' });
-                                }
+            this.addUser(response.data.t);
+            localStorage.setItem("userName", response.data.t.nickName);
+            localStorage.setItem("userId", response.data.t.id);
+            // this.$store.commit("user/addUser", response.data.t);
+            localStorage.setItem("userInfo", JSON.stringify(response.data.t));
+            localStorage.setItem("accessToken", response.data.token);
 
-                            } else {
-
-                                that.loginErr = true;
-                                that.loginTitle = '登录失败';
-                            }
-                        } else {
-                            this.param.vcode = false;
-                            this.$message.error('登录失败');
-                        }
-                    }); 
+            if (localStorage.getItem("logUrl")) {
+              that.$router.push({ path: localStorage.getItem("logUrl") });
+            } else {
+              that.$router.push({ path: "/" });
+            }
+          } else {
+            that.loginErr = true;
+            that.loginTitle = "登录失败";
+          }
+        } else {
+          this.param.vcode = false;
+          this.$message.error("登录失败");
+        }
+      });
       // if (!that.emailErr && !that.passwordErr) {
-        // UserLogin(that.email, that.password, function (msg) {
-        //   // console.log(msg);
-        //   if (msg.code == 1010) {//登录成功
-        //     localStorage.setItem('userInfo', JSON.stringify(msg.data));
-        //     localStorage.setItem('accessToken', msg.token);
-        //     if (localStorage.getItem('logUrl')) {
-        //       that.$router.push({ path: localStorage.getItem('logUrl') });
-        //     } else {
-        //       that.$router.push({ path: '/' });
-        //     }
+      // UserLogin(that.email, that.password, function (msg) {
+      //   // console.log(msg);
+      //   if (msg.code == 1010) {//登录成功
+      //     localStorage.setItem('userInfo', JSON.stringify(msg.data));
+      //     localStorage.setItem('accessToken', msg.token);
+      //     if (localStorage.getItem('logUrl')) {
+      //       that.$router.push({ path: localStorage.getItem('logUrl') });
+      //     } else {
+      //       that.$router.push({ path: '/' });
+      //     }
 
-        //   } else if (msg.code == 2008 || msg.code == 2007) {//邮箱或密码错误
-        //     that.loginErr = true;
-        //     that.loginTitle = '邮箱或密码错误';
-        //   } else if (msg.code == 2009) {//邮箱注册码未激活
-        //     that.loginErr = true;
-        //     that.loginTitle = '该邮箱注册码未激活，请前往邮箱激活';
-        //   } else if (msg.code == 2005) {//邮箱注册码未激活已超时
-        //     // that.loginErr = true;
-        //     that.err2005 = true;
-        //     // that.loginTitle = '该邮箱激活地址已超时，已发送新链接，请前往邮箱激活';
-        //   } else {
-        //     that.loginErr = true;
-        //     that.loginTitle = '登录失败';
-        //   }
-        // })
+      //   } else if (msg.code == 2008 || msg.code == 2007) {//邮箱或密码错误
+      //     that.loginErr = true;
+      //     that.loginTitle = '邮箱或密码错误';
+      //   } else if (msg.code == 2009) {//邮箱注册码未激活
+      //     that.loginErr = true;
+      //     that.loginTitle = '该邮箱注册码未激活，请前往邮箱激活';
+      //   } else if (msg.code == 2005) {//邮箱注册码未激活已超时
+      //     // that.loginErr = true;
+      //     that.err2005 = true;
+      //     // that.loginTitle = '该邮箱激活地址已超时，已发送新链接，请前往邮箱激活';
+      //   } else {
+      //     that.loginErr = true;
+      //     that.loginTitle = '登录失败';
+      //   }
+      // })
 
       // }
     },
     registerEnterFun: function (e) {
-      var keyCode = window.event ? e.keyCode : e.which
+      var keyCode = window.event ? e.keyCode : e.which;
       // console.log('回车注册',keyCode,e);
       if (keyCode == 13) {
-        this.newRegister()
+        this.newRegister();
       }
     },
-    newRegister: function () { // 注册提交
-      var that = this
-      var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
-      var preg = /^(\w){6,12}$/
+    newRegister: function () {
+      // 注册提交
+      var that = this;
+      var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+      var preg = /^(\w){6,12}$/;
       if (that.nusername) {
-        that.nusernameErr = false
+        that.nusernameErr = false;
       } else {
-        that.nusernameErr = true
+        that.nusernameErr = true;
       }
       if (reg.test(that.nemail)) {
-        that.nemailErr = false
+        that.nemailErr = false;
       } else {
-        that.nemailErr = true
+        that.nemailErr = true;
       }
       if (that.npassword && preg.test(that.npassword)) {
-        that.npasswordErr = false
+        that.npasswordErr = false;
         if (that.npassword == that.npassword2) {
-          that.npassword2Err = false
+          that.npassword2Err = false;
         } else {
-          that.npassword2Err = true
+          that.npassword2Err = true;
         }
       } else {
-        that.npasswordErr = true
+        that.npasswordErr = true;
       }
       if (!that.nusernameErr && !that.nemailErr && !that.npasswordErr) {
-        that.fullscreenLoading = true
+        that.fullscreenLoading = true;
         // getRegister(that.nusername, that.npassword, that.nemail, function (msg) {
         //   if (msg.code == 1010) {//注册成功
         //     var timer = setTimeout(function () {//注册中
@@ -317,17 +343,18 @@ export default {
         // })
       }
     },
-    goLogin: function () { // 邮箱验证成功,去登陆
-      this.err2005 = false
-      this.$router.push({ path: '/Login?login=1' })
+    goLogin: function () {
+      // 邮箱验证成功,去登陆
+      this.err2005 = false;
+      this.$router.push({ path: "/Login?login=1" });
     },
-    goRegister: function () { // 去注册
-      this.err2005 = false
-      this.$router.push({ path: '/Login?login=0' })
-    }
-
-  }
-}
+    goRegister: function () {
+      // 去注册
+      this.err2005 = false;
+      this.$router.push({ path: "/Login?login=0" });
+    },
+  },
+};
 </script>
 
 <style>

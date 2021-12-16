@@ -25,7 +25,6 @@ let http = axios.create({
 });
 
 http.interceptors.request.use(config => {
-  debugger
   var token = localStorage.getItem("token");
   if (token) {
     config.headers.Authorization = token
@@ -37,7 +36,6 @@ http.interceptors.request.use(config => {
 )
 
 http.interceptors.response.use(res =>{
-  debugger
   var code = res.data.code;
   if(isReFreshPadding){
     if(code === 100401 && res.data.success == false){
@@ -55,7 +53,6 @@ http.interceptors.response.use(res =>{
       });
   }
   }
-  debugger
   return res;
 })
 

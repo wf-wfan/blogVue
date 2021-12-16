@@ -53,6 +53,17 @@ const mutations = {
 }
 
 const actions = {
+
+
+  addUser({ commit }, userinfo) {
+    debugger
+    commit('SET_ID', userinfo.id)
+    commit('SET_NAME', userinfo.username)
+  //  commit('SET_AVATAR', avatar)
+    commit('SET_USER', userinfo)
+
+    //commit('SET_ID', arid)
+  },
   // user login
   login({
     commit

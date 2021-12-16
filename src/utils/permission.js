@@ -16,7 +16,7 @@ router.beforeEach(async (to, from, next) => {
   // console.log('888')
   if (hasToken && !store.state.user.haslogin) {
     // console.log('999', store)
-    await store.dispatch('user/getInfo')
+    // await store.dispatch('user/getInfo')
   }
   next()
 })

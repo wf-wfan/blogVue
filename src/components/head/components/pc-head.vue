@@ -11,7 +11,7 @@
         <i class="fa fa-wa fa-home" /> 首页
       </el-menu-item>
        <el-menu-item  ><a href="javascript:void(0);" @click="article(1)">文章&nbsp;</a></el-menu-item>
-      <el-submenu index=""
+      <!-- <el-submenu index=""
                   :popper-append-to-body="false">
         <template slot="title">
           <i class="fa fa-wa fa-flask" /> 实验室
@@ -37,10 +37,9 @@
       </el-menu-item>
       <el-menu-item index="/aboutme">
         <i class="fa fa-wa fa-vcard" /> 关于
-      </el-menu-item>
+      </el-menu-item> -->
       <div class="pcsearchbox">
-        <i class="el-icon-search pcsearchicon" />
-          <!-- <el-button>sss</el-button> -->
+        <!-- <i class="el-icon-search pcsearchicon" />
         <div class="pcsearchinput"
              :class="searchkey?'hasSearched':''">
           <el-input v-model="searchkey"
@@ -51,8 +50,13 @@
                class="el-input__icon el-icon-search"
                @click="searchEnterFun" />
           </el-input>
-        </div>
-        
+        </div> -->
+          <el-menu-item  v-if="haslogin" index="/articleAdd">
+             创作中心
+          </el-menu-item>
+          <!-- <el-menu-item v-if="haslogin"  ><a href="javascript:void(0);" @click="article(1)">创作中心&nbsp;</a></el-menu-item> -->
+          <!-- <el-button type="danger" class="pcsearchbox" v-if="haslogin"   round>危险按钮</el-button>
+         -->
       </div>
       
       <div class="userInfo">
@@ -68,22 +72,26 @@
         </div>
         <div v-show="haslogin"
              class="haslogin">
-          <i class="fa fa-fw fa-user-circle userImg" />
-          <ul class="haslogin-info">
-            <li>
-              <a @click="goHandle({name: 'User'})">个人中心</a>
-            </li>
-            <li>
-              <a @click="goHandle({name: 'LikeCollect', query:{like: 1}})">喜欢列表</a>
-            </li>
-            <li>
-              <a @click="goHandle({name: 'LikeCollect', query:{collect: 1}})">收藏列表</a>
-            </li>
-            <li>
-              <a href="javascript:void(0);"
-                 @click="userlogout">退出登录</a>
-            </li>
-          </ul>
+          <div>
+            <i class="fa fa-fw fa-user-circle userImg" />
+            <ul class="haslogin-info">
+              <li>
+                <a @click="goHandle({name: 'User'})">个人中心</a>
+              </li>
+              <li>
+                <a @click="goHandle({name: 'LikeCollect', query:{like: 1}})">喜欢列表</a>
+              </li>
+              <li>
+                <a @click="goHandle({name: 'LikeCollect', query:{collect: 1}})">收藏列表</a>
+              </li>
+              <li>
+                <a href="javascript:void(0);"
+                  @click="userlogout">退出登录</a>
+              </li>
+            </ul>
+          </div>
+         
+          
         </div>
       </div>
     </el-menu>
@@ -97,9 +105,21 @@ export default {
   props: ['activeIndex', 'projectList', 'haslogin'],
   data() {
     return {
-      searchkey: ''
+      searchkey: '',
+      // haslogin :false,
     }
   },
+  computed: {
+        // username() {
+        //     let username = localStorage.getItem('userName');
+        //     let userId = localStorage.getItem('userId');
+        //     if(username == '' && userId == ''){
+        //       this.haslogin = false;
+        //     }else{
+        //       this.haslogin = true
+        //     }
+        // }
+    },
   created() { },
   methods: {
     searchEnterFun() { this.$emit('searchEnterFun') },
@@ -116,9 +136,7 @@ export default {
 			// console.log(msg);
 			localStorage.setItem('logUrl', this.$route.fullPath);
 			// console.log(666,this.$router.currentRoute.fullPath);
-			if (msg == 0) {
          this.$router.replace('/login?login=1')
-      }
 		},
   }
 }
@@ -279,6 +297,8 @@ export default {
   position: relative;
   min-width: 80px;
   cursor: pointer;
+
+  right: 50px;
 }
 
 .headBox .haslogin:hover ul {

@@ -1,96 +1,83 @@
 <!-- 留言评论模块 -->
 <template>
-  <div ref="tmsgBox"
-       class="tmsgBox">
-    <div ref="respondBox"
-         class="tmsg-respond">
-      <h3>发表评论 <small v-show="isRespond"
-               class="tcolorm"
-               @click="removeRespond">取消回复</small></h3>
+  <div ref="tmsgBox" class="tmsgBox">
+    <div ref="respondBox" class="tmsg-respond">
+      <h3>
+        发表评论
+        <small v-show="isRespond" class="tcolorm" @click="removeRespond"
+          >取消回复</small
+        >
+      </h3>
       <form class="">
-        <el-input v-model="textarea"
-                  type="textarea"
-                  :rows="2"
-                  placeholder="说点什么呢``" />
-        <div :class="pBody?'OwO':'OwO OwO-open'">
-          <div class="OwO-logo"
-               @click="pBody=!pBody">
-            <span>OwO表情</span>
-          </div>
-          <div class="OwO-body">
-            <ul class="OwO-items OwO-items-show">
-              <li v-for="(oitem,index) in OwOlist"
-                  :key="'oitem'+index"
-                  class="OwO-item"
-                  @click="choseEmoji(oitem.title)">
-                <img :src="require('@/assets/img/emot/image/'+oitem.url)"
-                     alt="">
-              </li>
-            </ul>
-            <div class="OwO-bar">
-              <ul class="OwO-packages">
-                <li class="OwO-package-active">Emoji</li>
-              </ul>
-            </div>
-          </div>
-        </div>
         <el-row class="tmsg-r-info">
-          <el-col :span="24"
-                  class="info-submit">
-            <!-- <p class="tcolors-bg"
-               @click="sendMsg"></p> -->
-            <AButton size="large"
-                     @click="sendMsg">{{ sendTip }}</AButton>
+          <el-col :span="21" class="info-submit">
+            <el-input
+              v-model="textarea"
+              type="textarea"
+              :rows="1"
+              placeholder="说点什么呢``"
+            />
+          </el-col>
+          <el-col :span="1"> &nbsp; </el-col>
+          <el-col :span="2" class="info-submit">
+            <AButton size="large" @click="sendMsg">{{ sendTip }}</AButton>
           </el-col>
         </el-row>
       </form>
     </div>
-    <div ref="listDom"
-         class="tmsg-comments">
-      <a href="#"
-         class="tmsg-comments-tip">活捉 {{ total }} 条</a>
+    <div ref="listDom" class="tmsg-comments">
+      <!-- <a href="#" class="tmsg-comments-tip">活捉 {{ total }} 条</a> -->
       <div class="tmsg-commentshow">
         <ul class="tmsg-commentlist">
-          <li v-for="(item,index) in list"
-              :key="'common'+index"
-              class="tmsg-c-item">
+          <li
+            v-for="(item, index) in list"
+            :key="'common' + index"
+            class="tmsg-c-item"
+          >
             <article class="">
               <header>
                 <HeadImg :src="item.avatar" />
                 <div class="i-name">
-                  {{ item.username }}
+                  {{ item.userName }}
                 </div>
-                <div v-show="item.label"
-                     class="i-class">
-                  {{ item.label }}
+                <div v-show="item.label" class="i-class">
+                  {{ item.articleTtile }}
                 </div>
                 <div class="i-time">
-                  <time>{{ initDate(item.createDate) }}</time>
+                  <time>{{ initDate(item.commentDate) }}</time>
                 </div>
               </header>
               <section>
-                <p v-html="analyzeEmoji(item.content)" />
-                <div v-if="haslogin"
-                     class="tmsg-replay"
-                     @click="respondMsg({leaveIndex: index, pIndex: -1, pid: item._id})">
+                <p v-html="analyzeEmoji(item.commentText)" />
+                <div
+                  v-if="haslogin"
+                  class="tmsg-replay"
+                  @click="
+                    respondMsg({ leaveIndex: index, pIndex: -1, pid: item._id })
+                  "
+                >
                   回复
                 </div>
               </section>
             </article>
-            <ul v-if="item.children && item.children.length>0"
-                class="tmsg-commentlist"
-                style="padding-left:60px;">
-              <li v-for="(citem,cindex) in item.children"
-                  :key="'citem'+cindex"
-                  class="tmsg-c-item">
+            <ul
+              v-if="item.children && item.children.length > 0"
+              class="tmsg-commentlist"
+              style="padding-left: 60px"
+            >
+              <li
+                v-for="(citem, cindex) in item.children"
+                :key="'citem' + cindex"
+                class="tmsg-c-item"
+              >
                 <article class="">
                   <header>
                     <HeadImg :src="citem.avatar" />
                     <div class="i-name">
-                      {{ citem.username }} <span>回复</span> {{ citem.parentUsername }}
+                      {{ citem.username }} <span>回复</span>
+                      {{ citem.parentUsername }}
                     </div>
-                    <div v-show="citem.label"
-                         class="i-class">
+                    <div v-show="citem.label" class="i-class">
                       {{ citem.label }}
                     </div>
                     <div class="i-time">
@@ -98,10 +85,20 @@
                     </div>
                   </header>
                   <section>
-                    <p v-html="analyzeEmoji(citem.content)">{{ citem.content }}</p>
-                    <div v-show="haslogin"
-                         class="tmsg-replay"
-                         @click="respondMsg({leaveIndex: index, pIndex: cindex, pid: citem._id})">
+                    <p v-html="analyzeEmoji(citem.commentText)">
+                      {{ citem.commentText }}
+                    </p>
+                    <div
+                      v-show="haslogin"
+                      class="tmsg-replay"
+                      @click="
+                        respondMsg({
+                          leaveIndex: index,
+                          pIndex: cindex,
+                          pid: citem._id,
+                        })
+                      "
+                    >
                       回复
                     </div>
                   </section>
@@ -109,18 +106,21 @@
               </li>
             </ul>
           </li>
-
         </ul>
+
+         <el-pagination
+    layout="prev, pager, next"
+    :total="0">
+  </el-pagination>
         <!-- <h1 v-show="hasMore"
             class="tcolors-bg"
             @click="addMoreFun">查看更多</h1> -->
-        <AButton v-show="hasMore"
-                 size="large"
-                 @click="addMoreFun">查看更多</AButton>
+        <!-- <AButton v-show="hasMore" size="large" @click="addMoreFun"
+          >查看更多</AButton
+        > -->
         <!-- <h1 v-show="!hasMore"
             class="tcolors-bg">没有更多</h1> -->
-        <AButton v-show="!hasMore"
-                 size="large">没有更多</AButton>
+        <!-- <AButton v-show="!hasMore" size="large">没有更多</AButton> -->
       </div>
     </div>
   </div>
@@ -128,61 +128,68 @@
 
 <script>
 // import {ArticleComment,OtherComment,setArticleComment,setOuthComment} from '../utils/server.js'
-import commentAPI from '@/api/comment'
-import { OwOlist } from '@/utils/constants'
-import { analyzeEmoji } from '@/utils'
-import { mapActions, mapState } from 'vuex'
-import { initDate } from '@/utils/index.js'
-import AButton from '@/components/abutton'
-import xss from 'xss'
+import commentAPI from "@/api/comment";
+import { OwOlist } from "@/utils/constants";
+import { analyzeEmoji } from "@/utils";
+import { mapActions, mapState } from "vuex";
+import { initDate } from "@/utils/index.js";
+import AButton from "@/components/abutton";
+import xss from "xss";
 export default {
-  name: 'Message',
-  components: { // 定义组件
-    AButton
+  name: "Message",
+  components: {
+    // 定义组件
+    AButton,
   },
-  props: ['id'],
+  props: ["id"],
   computed: {
-    ...mapState('user', [
-      'haslogin'
-    ])
+    ...mapState("user", ["haslogin"]),
   },
-  data() { // 选项 / 数据
+  data() {
+    // 选项 / 数据
     return {
-      respondBox: '', // 评论表单
-      listDom: '',
-      tmsgBox: '', // 总评论盒子
+      respondBox: "", // 评论表单
+      listDom: "",
+      tmsgBox: "", // 总评论盒子
       isRespond: false,
-      textarea: '', // 文本框输入内容
+      textarea: "", // 文本框输入内容
       hasMore: true,
       leaveIndex: 0, // 赞赏等其他模块的分类id
       pIndex: -1,
-      pid: '', // 回复评论的一级commentId
-      sendTip: '发送~',
+      pid: "", // 回复评论的一级commentId
+      sendTip: "发送~",
       list: [],
       pBody: true,
       OwOlist,
       pageSize: 10,
       current: 1,
       total: 0,
-      totalPage: 0
-    }
+      totalPage: 0,
+      query: {
+        pageIndex: 1,
+        pageSize: 10,
+      },
+      pageTotal: 0,
+    };
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    '$route': 'routeChange'
+    $route: "routeChange",
   },
-  created() { // 生命周期函数
-
+  created() {
+    // 生命周期函数
   },
-  async mounted() { // 页面加载完成后
-    await this.routeChange()
+   mounted() {
+    // 页面加载完成后
+     this.routeChange();
   },
-  methods: { // 事件处理器
+  methods: {
+    // 事件处理器
     initDate,
-    ...mapActions('user', ['login']),
+    ...mapActions("user", ["login"]),
     // 选择表情包
     choseEmoji(inner) {
-      this.textarea += '[' + inner + ']'
+      this.textarea += "[" + inner + "]";
     },
     // 编译表情替换成图片展示出来
     // analyzeEmoji(value) {
@@ -191,87 +198,141 @@ export default {
     //   return data
     // },
     analyzeEmoji(value) {
-      return analyzeEmoji(xss(value))
+      return analyzeEmoji(xss(value));
     },
     // 发送留言
-    async sendMsg() {
-      if (this.textarea && this.textarea.trim()) {
-        const res = await commentAPI.add({ content: xss(this.textarea.trim()), articleId: this.id, parentId: this.isRespond ? this.pid : null })
-        if (res.code === 0) {
-          // this.routeChange()
-          this.textarea = ''
-          this.removeRespond()
-          const timer = setTimeout(() => {
-            this.sendTip = '发送~'
-            clearTimeout(timer)
-          }, 1000)
-          if (this.isRespond) {
-            if (this.pIndex == -1) {
-              this.list[this.leaveIndex].children.unshift(res)
-            } else {
-              this.list[this.leaveIndex].children.push(res)
-            }
-          } else {
-            this.list.unshift(res.data)
-          }
-        }
-      } else {
-        this.sendTip = '内容不能为空~'
-        const timer = setTimeout(() => {
-          this.sendTip = '发送~'
-          clearTimeout(timer)
-        }, 3000)
-      }
+     sendMsg() {
+       debugger
+       var params = {
+        commentText :this.textarea.trim(),
+        articleId: this.id,
+        parenttUserId: this.isRespond ? this.pid : 0,
+        parentId : 0
+       }
+       this.$axios.post('/article/saveComment', params, (response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    if (response.data.success) {
+                      console.log("成功了吗？？")
+                      // var param111 ={
+                      //   avatar:'',
+                      //   username:'测试',
+                      //   label: this.textarea,
+                      //   createDate:'2021-02-01 02:03:55',
+                      //   content :this.textarea,
+                      //   children :[
+                         
+                      //   ],
+                      // }
+                      // this.list.unshift(param111);
+                    } else {
+                        this.$message(response.data.msg);
+                    }
+                } else {
+                  this.$message("发布评论出错");
+                } 
+            });
+
+
+      // if (this.textarea && this.textarea.trim()) {
+      //   const res = await commentAPI.add({
+      //     content: xss(this.textarea.trim()),
+      //     articleId: this.id,
+      //     parentId: this.isRespond ? this.pid : null,
+      //   });
+      //   if (res.code === 0) {
+      //     // this.routeChange()
+      //     this.textarea = "";
+      //     this.removeRespond();
+      //     const timer = setTimeout(() => {
+      //       this.sendTip = "发送~";
+      //       clearTimeout(timer);
+      //     }, 1000);
+      //     if (this.isRespond) {
+      //       if (this.pIndex == -1) {
+      //         this.list[this.leaveIndex].children.unshift(res);
+      //       } else {
+      //         this.list[this.leaveIndex].children.push(res);
+      //       }
+      //     } else {
+      //       this.list.unshift(res.data);
+      //     }
+      //   }
+      // } else {
+      //   this.sendTip = "内容不能为空~";
+      //   const timer = setTimeout(() => {
+      //     this.sendTip = "发送~";
+      //     clearTimeout(timer);
+      //   }, 3000);
+      // }
     },
-    respondMsg({ leaveIndex, pIndex, pid }) { // 回复留言
+    respondMsg({ leaveIndex, pIndex, pid }) {
+      // 回复留言
       // console.log(leavePid,pid);
       if (this.haslogin) {
-        var dom = event.currentTarget
-        dom = dom.parentNode
-        this.isRespond = true
-        this.leaveIndex = leaveIndex
-        this.pIndex = pIndex
-        this.pid = pid
-        dom.appendChild(this.$refs.respondBox)
+        var dom = event.currentTarget;
+        dom = dom.parentNode;
+        this.isRespond = true;
+        this.leaveIndex = leaveIndex;
+        this.pIndex = pIndex;
+        this.pid = pid;
+        dom.appendChild(this.$refs.respondBox);
       }
     },
-    removeRespond() { // 取消回复留言
-      this.isRespond = false
-      this.$refs.tmsgBox.insertBefore(this.$refs.respondBox, this.$refs.listDom)
+    removeRespond() {
+      // 取消回复留言
+      this.isRespond = false;
+      this.$refs.tmsgBox.insertBefore(
+        this.$refs.respondBox,
+        this.$refs.listDom
+      );
     },
-    async getList(initData) {
-      const options = {
-        keywords: this.keywords,
-        pageSize: this.pageSize,
-        currentPage: this.current,
-        articleId: this.id,
-        state: 1
-      }
+     getList(initData) {
+       this.query.articleId = this.id,
 
-      const res = await commentAPI.getList(options)
-      // console.log('list---data', res.data)
-      const {
-        list,
-        pagination
-      } = res.data
-      this.list = initData ? list : this.list.concat(list)
-      this.total = pagination.countTotal
-      this.totalPage = pagination.totalPage
-      this.current = pagination.currentPage
-      this.hasMore = pagination.totalPage > pagination.currentPage
-      this.listLoading = false
+       this.$axios.post('/article/getCommentList', this.query, (response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    if (response.data.success) {
+                      debugger
+                      console.log("查询？？")
+                      this.list = response.data.list;
+                      this.pageTotal =response.data.pageTotal;
+                    } else {
+                        this.$message(response.data.msg);
+                    }
+                } else {
+                  this.$message("发布评论出错");
+                } 
+            });
+      // const options = {
+      //   keywords: this.keywords,
+      //   pageSize: this.pageSize,
+      //   currentPage: this.current,
+      //   articleId: this.id,
+      //   state: 1,
+      // };
+
+      // const res =  commentAPI.getList(options);
+      // // console.log('list---data', res.data)
+      // const { list, pagination } = res.data;
+      // this.list = initData ? list : this.list.concat(list);
+      // this.total = pagination.countTotal;
+      // this.totalPage = pagination.totalPage;
+      // this.current = pagination.currentPage;
+      // this.hasMore = pagination.totalPage > pagination.currentPage;
+      // this.listLoading = false;
     },
-    addMoreFun() { // 查看更多
-      ++this.current
-      this.getList(false)
+    addMoreFun() {
+      // 查看更多
+      ++this.current;
+      this.getList(false);
     },
-    async routeChange() { // 重新加载
-      // console.log('重新加载')
-      this.current = 1
-      await this.getList(true)
-    }
-  }
-}
+     routeChange() {
+      // 重新加载
+      this.current = 1;
+      this.getList(true);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -816,7 +877,7 @@ export default {
   display: block;
   border-left: 2px solid #363d4c;
   padding: 0 10px;
-  margin: 40px 0;
+  margin: 0px 0;
   font-size: 20px;
 }
 .tmsg-commentlist {
