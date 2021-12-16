@@ -69,7 +69,7 @@ export default {
   computed: {},
   props: ["type"],
   data() {
-    // 选项 / 数据
+    // 选项 / 数据 
     return {
       query: {
         pageIndex: 1,

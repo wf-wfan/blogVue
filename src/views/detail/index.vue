@@ -15,7 +15,7 @@
           <i :class="likeArt?'fa fa-fw fa-heart':'fa fa-fw fa-heart-o'" />喜欢 | {{ detailObj.likeCount }}
         </div>
         <div class="dcollectBox"
-             @click="likecollectHandle(2)">
+             @click="likecollectHandle(2)"> 
           <i :class="collectArt?'fa fa-fw fa-star':'fa fa-fw fa-star-o'" />收藏 | {{ detailObj.collectCount }}
         </div>
       </div>

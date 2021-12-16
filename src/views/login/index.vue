@@ -127,7 +127,7 @@
         <div v-show="urlstate == 'urlInvalid'" class="sucContent">
           账号已激活，现在去登录 &nbsp;&nbsp;<span
             class="tcolors-bg lastbtn"
-            @click="goLogin"
+            @click="goLogin" 
             >登录</span
           >
         </div>
@@ -147,7 +147,7 @@
 // import {getRegister,UserLogin} from '../utils/server.js'
 import { mapActions, mapState, mapGetters } from "vuex";
 export default {
-  name: "Login",
+  name: "Login", 
   components: {
     // 定义组件
   },
